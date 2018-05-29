@@ -1,0 +1,73 @@
+      #include <dht11.h> // dht11 kütüphanesini ekliyoruz.
+#define DHT11PIN 2 // DHT11PIN olarak Dijital 2"yi belirliyoruz.
+
+dht11 DHT11;
+
+void setup()
+{
+  Serial.begin(9600); // Seri iletiþimi baþlatýyoruz.
+  Serial.println("Arduinoturkiye.com DHT11 Test Programi");
+}
+
+void loop()
+{
+  // Bir satýr boþluk býrakýyoruz serial monitörde.
+  Serial.println();
+  // Sensörün okunup okunmadýðýný konrol ediyoruz. 
+  // chk 0 ise sorunsuz okunuyor demektir. Sorun yaþarsanýz
+  // chk deðerini serial monitörde yazdýrýp kontrol edebilirsiniz.
+  int chk = DHT11.read(DHT11PIN);
+
+  // Sensörden gelen verileri serial monitörde yazdýrýyoruz.
+  Serial.print("Nem (%): ");
+  Serial.println((float)DHT11.humidity, 2);
+
+  Serial.print("Sicaklik (Celcius): ");
+  Serial.println((float)DHT11.temperature, 2);
+
+  Serial.print("Sicaklik (Fahrenheit): ");
+  Serial.println(DHT11.fahrenheit(), 2);
+
+  Serial.print("Sicaklik (Kelvin): ");
+  Serial.println(DHT11.kelvin(), 2);
+
+  // Çið Oluþma Noktasý, Dew Point
+  Serial.print("Cig Olusma Noktasi: ");
+  Serial.println(DHT11.dewPoint(), 2);
+
+  // 2 saniye bekliyoruz. 2 saniyede bir veriler ekrana yazdýrýlacak.
+  delay(2000);
+
+}
+//Proje Hocam - I2C LCD Test Kodu
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+ 
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+ 
+void setup()
+{
+// LCD yi çalýþtýr
+lcd.begin();
+lcd.backlight();
+ 
+// Ekrana yazdýrýlacak metin
+lcd.print("Proje Hocam");
+}
+ 
+void loop()
+{
+}
+int buzzerPin=2; // Buzzer'in + bacaðýnýn bnaðlý olduðu pin
+ 
+void setup() {
+pinMode(buzzerPin,OUTPUT); // Buzzer'in baðlý olduðu pini çýkýþ olarak ayarladýk.
+ 
+}
+ 
+void loop() {
+ digitalWrite(buzzerPin,HIGH); //Buzzer'a güç göndererek ses çýkarmasýný saðladýk.
+ delay(1000);                  // 1 saniye boyunca çalmasýný söyledik.
+ digitalWrite(buzzerPin,LOW); //Buzzerýn gücünü keserek susmasýný saðladýk saðladýk.
+ delay(1000);                 // 1 saniye boyunca susmasýný söyledik.
+}
